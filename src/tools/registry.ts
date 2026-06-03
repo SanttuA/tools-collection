@@ -1,0 +1,72 @@
+import { lazy } from 'react';
+import { Binary, Braces, Calculator } from 'lucide-react';
+
+import type { ToolDefinition, ToolSlug } from './types';
+
+export const tools = [
+  {
+    slug: 'calculator',
+    title: 'Calculator',
+    category: 'Math',
+    description: 'Standard arithmetic with keyboard input.',
+    keywords: ['math', 'arithmetic', 'numbers'],
+    icon: Calculator,
+    component: lazy(() =>
+      import('./calculator/CalculatorTool').then((module) => ({
+        default: module.CalculatorTool,
+      })),
+    ),
+  },
+  {
+    slug: 'json-formatter',
+    title: 'JSON Formatter',
+    category: 'Data',
+    description: 'Validate, format, and minify JSON.',
+    keywords: ['json', 'formatter', 'minify', 'validate'],
+    icon: Braces,
+    component: lazy(() =>
+      import('./json/JsonFormatterTool').then((module) => ({
+        default: module.JsonFormatterTool,
+      })),
+    ),
+  },
+  {
+    slug: 'base64-converter',
+    title: 'Base64 Converter',
+    category: 'Encoding',
+    description: 'Encode and decode UTF-8 text.',
+    keywords: ['base64', 'b64', 'encode', 'decode'],
+    icon: Binary,
+    component: lazy(() =>
+      import('./base64/Base64ConverterTool').then((module) => ({
+        default: module.Base64ConverterTool,
+      })),
+    ),
+  },
+] satisfies ToolDefinition[];
+
+const toolsBySlug = new Map<ToolSlug, ToolDefinition>(tools.map((tool) => [tool.slug, tool]));
+
+export function getToolBySlug(slug: string): ToolDefinition | undefined {
+  return toolsBySlug.get(slug as ToolSlug);
+}
+
+export function searchTools(query: string): ToolDefinition[] {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return tools;
+  }
+
+  return tools.filter((tool) => {
+    const searchableText = [
+      tool.title,
+      tool.category,
+      tool.description,
+      tool.slug,
+      ...tool.keywords,
+    ].join(' ');
+
+    return searchableText.toLowerCase().includes(normalizedQuery);
+  });
+}
