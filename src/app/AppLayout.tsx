@@ -1,9 +1,69 @@
 import { Link, Outlet } from '@tanstack/react-router';
-import { Home, Search } from 'lucide-react';
+import { Home, Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { tools } from '@/tools/registry';
 
+type ThemeMode = 'dark' | 'light';
+
+const themeStorageKey = 'tools-collection-theme';
+
+function getInitialTheme(): ThemeMode {
+  if (typeof window === 'undefined') {
+    return 'dark';
+  }
+
+  try {
+    const storedTheme = localStorage.getItem(themeStorageKey);
+
+    return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'dark';
+  } catch {
+    return 'dark';
+  }
+}
+
+type ThemeToggleProps = {
+  mode: ThemeMode;
+  onToggle: () => void;
+};
+
+function ThemeToggle({ mode, onToggle }: ThemeToggleProps) {
+  const isDark = mode === 'dark';
+  const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  const Icon = isDark ? Sun : Moon;
+
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      aria-label={label}
+      title={label}
+      onClick={onToggle}
+    >
+      <Icon aria-hidden="true" />
+      <span aria-hidden="true">{isDark ? 'Dark' : 'Light'}</span>
+    </button>
+  );
+}
+
 export function AppLayout() {
+  const [themeMode, setThemeMode] = useState<ThemeMode>(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeMode;
+    document.documentElement.style.colorScheme = themeMode;
+
+    try {
+      localStorage.setItem(themeStorageKey, themeMode);
+    } catch {
+      // Keep the active theme even if persisted storage is unavailable.
+    }
+  }, [themeMode]);
+
+  const toggleTheme = () => {
+    setThemeMode((currentMode) => (currentMode === 'dark' ? 'light' : 'dark'));
+  };
+
   return (
     <div className="app-shell">
       <aside className="sidebar" aria-label="Primary">
@@ -16,6 +76,8 @@ export function AppLayout() {
             <p className="brand-meta">{tools.length} tools</p>
           </div>
         </div>
+
+        <ThemeToggle mode={themeMode} onToggle={toggleTheme} />
 
         <nav className="nav-list" aria-label="Tools">
           <Link
@@ -54,7 +116,7 @@ export function AppLayout() {
             </div>
             <p className="brand-title">Tools Collection</p>
           </div>
-          <Search aria-hidden="true" className="mobile-search-icon" />
+          <ThemeToggle mode={themeMode} onToggle={toggleTheme} />
         </div>
         <Outlet />
       </main>
