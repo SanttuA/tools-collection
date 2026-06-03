@@ -5,8 +5,8 @@
 }
 
 .sidebar {
-  background: #17221d;
-  color: #f5f7f2;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -25,9 +25,9 @@
 
 .brand-mark {
   align-items: center;
-  background: #dff4eb;
+  background: var(--brand-mark-bg);
   border-radius: 8px;
-  color: #03543f;
+  color: var(--brand-mark-text);
   display: inline-flex;
   flex: 0 0 auto;
   font-weight: 800;
@@ -46,8 +46,54 @@
 }
 
 .brand-meta {
-  color: #bac7b4;
+  color: var(--sidebar-muted);
   font-size: 0.875rem;
+}
+
+.theme-toggle {
+  align-items: center;
+  background: var(--theme-toggle-bg);
+  border: 1px solid var(--theme-toggle-border);
+  border-radius: 8px;
+  color: var(--theme-toggle-color);
+  display: inline-flex;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+  padding: 0.55rem 0.75rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.theme-toggle:hover {
+  background: var(--theme-toggle-hover-bg);
+  border-color: var(--border-strong);
+}
+
+.theme-toggle svg {
+  flex: 0 0 auto;
+  height: 1rem;
+  width: 1rem;
+}
+
+.theme-toggle span {
+  font-weight: 800;
+}
+
+.sidebar .theme-toggle {
+  background: var(--sidebar-action-bg);
+  border-color: var(--sidebar-action-border);
+  color: var(--sidebar-text);
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.sidebar .theme-toggle:hover {
+  background: var(--sidebar-action-hover-bg);
+  border-color: var(--sidebar-action-hover-border);
 }
 
 .nav-list {
@@ -60,7 +106,7 @@
   align-items: center;
   border: 1px solid transparent;
   border-radius: 8px;
-  color: #e5ece2;
+  color: var(--sidebar-link);
   display: flex;
   gap: 0.65rem;
   min-height: 2.75rem;
@@ -70,9 +116,9 @@
 
 .nav-link:hover,
 .nav-link.active {
-  background: rgb(255 255 255 / 10%);
-  border-color: rgb(255 255 255 / 14%);
-  color: #ffffff;
+  background: var(--sidebar-link-hover-bg);
+  border-color: var(--sidebar-link-hover-border);
+  color: var(--sidebar-text);
 }
 
 .nav-icon {
@@ -139,11 +185,16 @@
 }
 
 .search-field input {
+  background: transparent;
   border: 0;
   color: var(--text);
   min-width: 0;
   outline: 0;
   width: 100%;
+}
+
+.search-field input::placeholder {
+  color: var(--muted);
 }
 
 .tool-grid {
@@ -253,7 +304,7 @@
 .primary-link {
   background: var(--accent);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--accent-contrast);
   display: inline-flex;
   padding: 0.65rem 0.9rem;
   text-decoration: none;
@@ -287,10 +338,12 @@
     margin-bottom: 1rem;
   }
 
-  .mobile-search-icon {
-    color: var(--muted);
-    height: 1.1rem;
-    width: 1.1rem;
+  .mobile-bar .theme-toggle {
+    padding: 0;
+  }
+
+  .mobile-bar .theme-toggle span {
+    display: none;
   }
 
   .page-header {

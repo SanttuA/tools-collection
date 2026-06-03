@@ -1,4 +1,8 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function expectTheme(page: Page, theme: 'dark' | 'light') {
+  await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+}
 
 test('navigates between the registered tools', async ({ page }) => {
   await page.goto('./');
@@ -22,6 +26,21 @@ test('supports direct calculator hash links and keyboard input', async ({ page }
   await page.keyboard.press('Enter');
 
   await expect(page.getByLabel('Calculator display')).toHaveText('15');
+});
+
+test('defaults to dark mode and persists theme changes', async ({ page }) => {
+  await page.goto('./');
+
+  await expectTheme(page, 'dark');
+
+  await page.getByRole('button', { name: 'Switch to light mode' }).click();
+  await expectTheme(page, 'light');
+
+  await page.reload();
+  await expectTheme(page, 'light');
+
+  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+  await expectTheme(page, 'dark');
 });
 
 test('formats JSON', async ({ page }) => {
