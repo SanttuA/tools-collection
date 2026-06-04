@@ -14,6 +14,7 @@ describe('CalculatorTool', () => {
     await user.click(screen.getByRole('button', { name: '8' }));
     await user.click(screen.getByRole('button', { name: 'Equals' }));
 
+    expect(screen.getByLabelText('Current calculation')).toHaveTextContent('7 + 8 =');
     expect(screen.getByLabelText('Calculator display')).toHaveTextContent('15');
   });
 });

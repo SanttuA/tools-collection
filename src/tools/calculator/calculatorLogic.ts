@@ -25,6 +25,7 @@ export type CalculatorState = {
   pendingOperator: CalculatorOperator | null;
   awaitingOperand: boolean;
   error: string | null;
+  completedExpression: string | null;
 };
 
 type CalculationResult = { type: 'success'; value: number } | { type: 'error'; error: string };
@@ -35,6 +36,7 @@ export const initialCalculatorState: CalculatorState = {
   pendingOperator: null,
   awaitingOperand: false,
   error: null,
+  completedExpression: null,
 };
 
 const maxDisplayLength = 16;
@@ -99,6 +101,25 @@ export function mapKeyboardInput(key: string): CalculatorInput | null {
   return inputMap[key] ?? null;
 }
 
+export function getCalculatorStatusLine(state: CalculatorState): string {
+  if (state.completedExpression) {
+    return state.completedExpression;
+  }
+
+  if (!state.pendingOperator || state.storedValue === null) {
+    return '';
+  }
+
+  const storedValue = formatNumber(state.storedValue);
+  const operator = formatOperator(state.pendingOperator);
+
+  if (state.awaitingOperand) {
+    return `${storedValue} ${operator}`;
+  }
+
+  return `${storedValue} ${operator} ${state.display}`;
+}
+
 function inputDigit(state: CalculatorState, digit: CalculatorInput): CalculatorState {
   if (!isDigit(digit)) {
     return state;
@@ -109,6 +130,7 @@ function inputDigit(state: CalculatorState, digit: CalculatorInput): CalculatorS
       ...state,
       display: digit,
       awaitingOperand: false,
+      completedExpression: null,
     };
   }
 
@@ -116,6 +138,7 @@ function inputDigit(state: CalculatorState, digit: CalculatorInput): CalculatorS
     return {
       ...state,
       display: digit,
+      completedExpression: null,
     };
   }
 
@@ -126,6 +149,7 @@ function inputDigit(state: CalculatorState, digit: CalculatorInput): CalculatorS
   return {
     ...state,
     display: `${state.display}${digit}`,
+    completedExpression: null,
   };
 }
 
@@ -135,6 +159,7 @@ function inputDecimal(state: CalculatorState): CalculatorState {
       ...state,
       display: '0.',
       awaitingOperand: false,
+      completedExpression: null,
     };
   }
 
@@ -145,6 +170,7 @@ function inputDecimal(state: CalculatorState): CalculatorState {
   return {
     ...state,
     display: `${state.display}.`,
+    completedExpression: null,
   };
 }
 
@@ -163,6 +189,7 @@ function backspace(state: CalculatorState): CalculatorState {
   return {
     ...state,
     display: state.display.slice(0, -1),
+    completedExpression: null,
   };
 }
 
@@ -174,6 +201,7 @@ function negate(state: CalculatorState): CalculatorState {
   return {
     ...state,
     display: state.display.startsWith('-') ? state.display.slice(1) : `-${state.display}`,
+    completedExpression: null,
   };
 }
 
@@ -181,6 +209,7 @@ function percent(state: CalculatorState): CalculatorState {
   return {
     ...state,
     display: formatNumber(parseDisplay(state.display) / 100),
+    completedExpression: null,
   };
 }
 
@@ -195,6 +224,11 @@ function chooseOperator(state: CalculatorState, operator: CalculatorOperator): C
         ...initialCalculatorState,
         display: 'Error',
         error: result.error,
+        completedExpression: buildCompletedExpression(
+          state.storedValue,
+          state.pendingOperator,
+          state.display,
+        ),
       };
     }
 
@@ -204,6 +238,7 @@ function chooseOperator(state: CalculatorState, operator: CalculatorOperator): C
       pendingOperator: operator,
       awaitingOperand: true,
       error: null,
+      completedExpression: null,
     };
   }
 
@@ -212,6 +247,7 @@ function chooseOperator(state: CalculatorState, operator: CalculatorOperator): C
     storedValue: inputValue,
     pendingOperator: operator,
     awaitingOperand: true,
+    completedExpression: null,
   };
 }
 
@@ -228,6 +264,11 @@ function calculate(state: CalculatorState): CalculatorState {
       ...initialCalculatorState,
       display: 'Error',
       error: result.error,
+      completedExpression: buildCompletedExpression(
+        state.storedValue,
+        state.pendingOperator,
+        state.display,
+      ),
     };
   }
 
@@ -237,6 +278,11 @@ function calculate(state: CalculatorState): CalculatorState {
     pendingOperator: null,
     awaitingOperand: true,
     error: null,
+    completedExpression: buildCompletedExpression(
+      state.storedValue,
+      state.pendingOperator,
+      state.display,
+    ),
   };
 }
 
@@ -279,6 +325,22 @@ function formatNumber(value: number): string {
   }
 
   return rounded.toString();
+}
+
+function buildCompletedExpression(
+  firstValue: number,
+  operator: CalculatorOperator,
+  secondValue: string,
+): string {
+  return `${formatNumber(firstValue)} ${formatOperator(operator)} ${secondValue} =`;
+}
+
+function formatOperator(operator: CalculatorOperator): string {
+  if (operator === '*') {
+    return 'x';
+  }
+
+  return operator;
 }
 
 function isDigit(input: CalculatorInput): input is Extract<CalculatorInput, `${number}`> {

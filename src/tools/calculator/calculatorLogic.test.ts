@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   applyCalculatorInput,
+  getCalculatorStatusLine,
   initialCalculatorState,
   mapKeyboardInput,
   type CalculatorInput,
@@ -16,6 +17,39 @@ describe('calculator logic', () => {
     const state = press(['1', '2', '+', '7', '*', '2', '=']);
 
     expect(state.display).toBe('38');
+  });
+
+  it('shows a live pending expression while typing', () => {
+    const state = press(['1', '2', '+', '2', '3']);
+
+    expect(getCalculatorStatusLine(state)).toBe('12 + 23');
+  });
+
+  it('keeps the completed expression after equals', () => {
+    const state = press(['1', '2', '+', '2', '3', '=']);
+
+    expect(state.display).toBe('35');
+    expect(getCalculatorStatusLine(state)).toBe('12 + 23 =');
+  });
+
+  it('updates the operation line when replacing an operator', () => {
+    const state = press(['1', '2', '+', '-']);
+
+    expect(getCalculatorStatusLine(state)).toBe('12 -');
+  });
+
+  it('clears the operation line when reset', () => {
+    const state = applyCalculatorInput(press(['1', '2', '+', '2', '3', '=']), 'clear');
+
+    expect(state.display).toBe('0');
+    expect(getCalculatorStatusLine(state)).toBe('');
+  });
+
+  it('shows the collapsed result for chained operations', () => {
+    const state = press(['1', '2', '+', '7', '*']);
+
+    expect(state.display).toBe('19');
+    expect(getCalculatorStatusLine(state)).toBe('19 x');
   });
 
   it('handles decimals and floating point rounding', () => {
