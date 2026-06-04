@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
+    "html-validate": "^11.5.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

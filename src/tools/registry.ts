@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Binary, Braces, Calculator } from 'lucide-react';
+import { Binary, Braces, Calculator, CodeXml } from 'lucide-react';
 
 import type { ToolDefinition, ToolSlug } from './types';
 
@@ -40,6 +40,19 @@ export const tools = [
     component: lazy(() =>
       import('./base64/Base64ConverterTool').then((module) => ({
         default: module.Base64ConverterTool,
+      })),
+    ),
+  },
+  {
+    slug: 'html-validator',
+    title: 'HTML Validator',
+    category: 'Markup',
+    description: 'Validate HTML markup offline.',
+    keywords: ['html', 'validator', 'markup', 'lint', 'accessibility'],
+    icon: CodeXml,
+    component: lazy(() =>
+      import('./html/HtmlValidatorTool').then((module) => ({
+        default: module.HtmlValidatorTool,
       })),
     ),
   },

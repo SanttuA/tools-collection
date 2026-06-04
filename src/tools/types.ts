@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import type { ComponentType, LazyExoticComponent } from 'react';
 
-export type ToolSlug = 'calculator' | 'json-formatter' | 'base64-converter';
+export type ToolSlug = 'calculator' | 'json-formatter' | 'base64-converter' | 'html-validator';
 
 export type ToolComponentProps = {
   headingId: string;
