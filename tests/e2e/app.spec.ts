@@ -25,6 +25,7 @@ test('supports direct calculator hash links and keyboard input', async ({ page }
   await page.keyboard.press('8');
   await page.keyboard.press('Enter');
 
+  await expect(page.getByLabel('Current calculation')).toHaveText('7 + 8 =');
   await expect(page.getByLabel('Calculator display')).toHaveText('15');
 });
 

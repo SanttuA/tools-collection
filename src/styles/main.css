@@ -47,6 +47,7 @@
   --danger-hover-bg: #501b19;
   --calculator-display-bg: #050807;
   --calculator-display-text: #f8faf7;
+  --calculator-status-text: #a8b5ad;
   --calculator-button-bg: #111c18;
   --calculator-operator-bg: #12213a;
   --calculator-command-bg: #2e2411;
@@ -94,6 +95,7 @@
   --danger-hover-bg: #ffe9e6;
   --calculator-display-bg: #17221d;
   --calculator-display-text: #ffffff;
+  --calculator-status-text: #bac7b4;
   --calculator-button-bg: #f8faf7;
   --calculator-operator-bg: #eff6ff;
   --calculator-command-bg: #fff8ed;

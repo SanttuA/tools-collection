@@ -6,6 +6,7 @@ import type { ToolComponentProps } from '@/tools/types';
 
 import {
   applyCalculatorInput,
+  getCalculatorStatusLine,
   initialCalculatorState,
   mapKeyboardInput,
   type CalculatorInput,
@@ -74,6 +75,8 @@ export function CalculatorTool({ headingId }: ToolComponentProps) {
     setState((current) => applyCalculatorInput(current, input));
   };
 
+  const statusLine = getCalculatorStatusLine(state);
+
   return (
     <div className="tool-shell">
       <header className="tool-header">
@@ -85,9 +88,14 @@ export function CalculatorTool({ headingId }: ToolComponentProps) {
       </header>
 
       <div className="tool-panel compact calculator-panel">
-        <output className="calculator-display" aria-label="Calculator display">
-          {state.display}
-        </output>
+        <div className="calculator-display" aria-live="polite">
+          <output className="calculator-status-line" aria-label="Current calculation">
+            {statusLine}
+          </output>
+          <output className="calculator-result-line" aria-label="Calculator display">
+            {state.display}
+          </output>
+        </div>
         <div className="calculator-grid">
           {buttons.map((button) => (
             <button
