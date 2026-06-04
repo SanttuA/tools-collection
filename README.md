@@ -9,6 +9,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - Calculator: standard arithmetic with decimal, percent, sign, and keyboard input.
 - JSON Formatter: validate, pretty-print, and minify JSON.
 - Base64 Converter: encode and decode UTF-8 text.
+- HTML Validator: validate HTML markup offline.
 
 ## Stack
 

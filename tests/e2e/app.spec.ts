@@ -66,3 +66,18 @@ test('converts Base64 text', async ({ page }) => {
   await page.getByRole('button', { name: 'Decode from Base64' }).click();
   await expect(page.getByLabel('Plain text')).toHaveValue('Hello world');
 });
+
+test('validates HTML', async ({ page }) => {
+  await page.goto('./#/tools/html-validator');
+
+  await expect(page.getByRole('heading', { name: 'HTML Validator' })).toBeVisible();
+  await page
+    .getByLabel('HTML input')
+    .fill(
+      '<!DOCTYPE html><html lang="en"><head><title>Bad</title></head><body><input type="text"></input></body></html>',
+    );
+  await page.getByRole('button', { name: 'Validate HTML' }).click();
+
+  await expect(page.getByRole('alert')).toContainText('HTML has');
+  await expect(page.getByLabel('Validation report')).toHaveValue(/void-content/);
+});
