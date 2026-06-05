@@ -5,7 +5,8 @@ export type MarkdownStats = {
 
 type TableAlignment = 'center' | 'left' | 'right' | null;
 
-const headingPattern = /^(#{1,6})\s+(.+?)\s*#*\s*$/;
+const headingPattern = /^(#{1,6})\s+(.+?)\s*$/;
+const headingClosingMarkerPattern = /\s+#+$/;
 const horizontalRulePattern = /^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/;
 const fenceStartPattern = /^\s{0,3}```([A-Za-z0-9_-]+)?\s*$/;
 const fenceEndPattern = /^\s{0,3}```\s*$/;
@@ -53,7 +54,8 @@ function renderBlocks(lines: string[]): string[] {
     const headingMatch = line.match(headingPattern);
     if (headingMatch) {
       const level = headingMatch[1].length;
-      blocks.push(`<h${level}>${renderInline(headingMatch[2])}</h${level}>`);
+      const content = headingMatch[2].replace(headingClosingMarkerPattern, '');
+      blocks.push(`<h${level}>${renderInline(content)}</h${level}>`);
       index += 1;
       continue;
     }

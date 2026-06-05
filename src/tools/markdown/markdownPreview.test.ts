@@ -35,6 +35,18 @@ describe('renderMarkdown', () => {
     );
   });
 
+  it('preserves trailing heading hashes that are part of the text', () => {
+    expect(renderMarkdown(['# C#', '## F#', '### C###'].join('\n'))).toBe(
+      ['<h1>C#</h1>', '<h2>F#</h2>', '<h3>C###</h3>'].join('\n'),
+    );
+  });
+
+  it('strips whitespace-separated closing heading hashes', () => {
+    expect(renderMarkdown(['# Heading #', '## C# ###'].join('\n'))).toBe(
+      ['<h1>Heading</h1>', '<h2>C#</h2>'].join('\n'),
+    );
+  });
+
   it('escapes raw HTML and unsafe URLs', () => {
     expect(
       renderMarkdown(
