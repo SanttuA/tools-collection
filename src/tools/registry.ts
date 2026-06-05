@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Binary, Braces, Calculator, CodeXml, ShieldAlert } from 'lucide-react';
+import { Binary, Braces, Calculator, CodeXml, FileText, ShieldAlert } from 'lucide-react';
 
 import type { ToolDefinition, ToolSlug } from './types';
 
@@ -53,6 +53,19 @@ export const tools = [
     component: lazy(() =>
       import('./html/HtmlValidatorTool').then((module) => ({
         default: module.HtmlValidatorTool,
+      })),
+    ),
+  },
+  {
+    slug: 'markdown-previewer',
+    title: 'Markdown Previewer',
+    category: 'Markup',
+    description: 'Preview markdown as sanitized HTML.',
+    keywords: ['markdown', 'md', 'preview', 'markup', 'html'],
+    icon: FileText,
+    component: lazy(() =>
+      import('./markdown/MarkdownPreviewerTool').then((module) => ({
+        default: module.MarkdownPreviewerTool,
       })),
     ),
   },
