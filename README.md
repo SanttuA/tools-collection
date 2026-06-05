@@ -11,6 +11,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - Base64 Converter: encode and decode UTF-8 text.
 - HTML Validator: validate HTML markup offline.
 - Markdown Previewer: preview markdown as sanitized HTML.
+- Lorem Ipsum Generator: generate placeholder paragraphs, sentences, or words.
 - JWT Decoder: decode JWT header, payload, and time claims locally without verification.
 
 ## Stack

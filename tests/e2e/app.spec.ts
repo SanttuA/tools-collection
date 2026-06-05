@@ -96,6 +96,21 @@ test('previews Markdown', async ({ page }) => {
   await expect(preview.locator('strong')).toHaveText('Strong');
 });
 
+test('generates Lorem Ipsum text', async ({ page }) => {
+  await page.goto('./#/tools/lorem-ipsum-generator');
+
+  await expect(page.getByRole('heading', { name: 'Lorem Ipsum Generator' })).toBeVisible();
+  await page.getByLabel('Words').check();
+  await page.getByLabel('Count').fill('8');
+  const generatedText = page.getByRole('textbox', { name: 'Generated text' });
+
+  await expect(generatedText).toHaveValue('Lorem ipsum dolor sit amet velit consectetur duis');
+  await expect(page.getByText('8 words')).toBeVisible();
+
+  await page.getByLabel('Start with Lorem ipsum').uncheck();
+  await expect(generatedText).toHaveValue('Velit consectetur duis est est ad voluptate pariatur');
+});
+
 test('decodes JWTs', async ({ page }) => {
   await page.goto('./#/tools/jwt-decoder');
 

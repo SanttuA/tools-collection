@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Binary, Braces, Calculator, CodeXml, FileText, ShieldAlert } from 'lucide-react';
+import { Binary, Braces, Calculator, CodeXml, FileText, Pilcrow, ShieldAlert } from 'lucide-react';
 
 import type { ToolDefinition, ToolSlug } from './types';
 
@@ -66,6 +66,19 @@ export const tools = [
     component: lazy(() =>
       import('./markdown/MarkdownPreviewerTool').then((module) => ({
         default: module.MarkdownPreviewerTool,
+      })),
+    ),
+  },
+  {
+    slug: 'lorem-ipsum-generator',
+    title: 'Lorem Ipsum Generator',
+    category: 'Text',
+    description: 'Generate placeholder paragraphs, sentences, or words.',
+    keywords: ['lorem', 'ipsum', 'placeholder', 'text', 'copy'],
+    icon: Pilcrow,
+    component: lazy(() =>
+      import('./lorem/LoremIpsumGeneratorTool').then((module) => ({
+        default: module.LoremIpsumGeneratorTool,
       })),
     ),
   },

@@ -7,6 +7,7 @@ export type ToolSlug =
   | 'base64-converter'
   | 'html-validator'
   | 'markdown-previewer'
+  | 'lorem-ipsum-generator'
   | 'jwt-decoder';
 
 export type ToolComponentProps = {
