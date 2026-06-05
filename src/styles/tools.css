@@ -204,6 +204,93 @@
   margin-top: 1rem;
 }
 
+.lorem-control-grid {
+  align-items: end;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(14rem, 1.3fr) minmax(8rem, 0.7fr) minmax(12rem, 1fr);
+}
+
+.lorem-fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.lorem-segmented-control {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0.25rem;
+}
+
+.lorem-segmented-option {
+  align-items: center;
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.4rem;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.55rem;
+  text-align: center;
+}
+
+.lorem-segmented-option:has(input:checked) {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.lorem-segmented-option input {
+  accent-color: var(--accent);
+  margin: 0;
+}
+
+.lorem-hint {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.lorem-toggle {
+  align-items: center;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.lorem-toggle input {
+  accent-color: var(--accent);
+  flex: 0 0 auto;
+  height: 1rem;
+  margin: 0;
+  width: 1rem;
+}
+
+.lorem-output-block {
+  margin-top: 1rem;
+}
+
+.lorem-stats {
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  margin-top: 0.7rem;
+}
+
 .jwt-token-input {
   min-height: 7rem;
 }
@@ -385,6 +472,10 @@
 
 @media (max-width: 720px) {
   .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lorem-control-grid {
     grid-template-columns: 1fr;
   }
 
