@@ -205,10 +205,10 @@
 }
 
 .lorem-control-grid {
-  align-items: end;
+  align-items: start;
   display: grid;
   gap: 1rem;
-  grid-template-columns: minmax(14rem, 1.3fr) minmax(8rem, 0.7fr) minmax(12rem, 1fr);
+  grid-template-columns: minmax(16rem, 1fr) minmax(8rem, 10rem) minmax(14rem, 1fr);
 }
 
 .lorem-fieldset {
@@ -267,6 +267,7 @@
   display: inline-flex;
   font-weight: 800;
   gap: 0.55rem;
+  margin-top: 1.9rem;
   min-height: 2.75rem;
   padding: 0.55rem 0.75rem;
 }
@@ -477,6 +478,10 @@
 
   .lorem-control-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lorem-toggle {
+    margin-top: 0;
   }
 
   .tool-header {
