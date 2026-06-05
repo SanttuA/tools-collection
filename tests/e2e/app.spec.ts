@@ -4,6 +4,9 @@ async function expectTheme(page: Page, theme: 'dark' | 'light') {
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
 }
 
+const jwtWithClaims =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoiQWRhIiwiaWF0IjoxNzAwMDAwMDAwLCJuYmYiOjE3MDAwMDAxMDAsImV4cCI6MjAwMDAwMDAwMH0.signature';
+
 test('navigates between the registered tools', async ({ page }) => {
   await page.goto('./');
 
@@ -80,4 +83,18 @@ test('validates HTML', async ({ page }) => {
 
   await expect(page.getByRole('alert')).toContainText('HTML has');
   await expect(page.getByLabel('Validation report')).toHaveValue(/void-content/);
+});
+
+test('decodes JWTs', async ({ page }) => {
+  await page.goto('./#/tools/jwt-decoder');
+
+  await expect(page.getByRole('heading', { name: 'JWT Decoder' })).toBeVisible();
+  await page.getByLabel('JWT token').fill(jwtWithClaims);
+  await page.getByRole('button', { name: 'Decode JWT' }).click();
+
+  await expect(page.getByLabel('Decoded header')).toHaveValue(
+    '{\n  "alg": "HS256",\n  "typ": "JWT"\n}',
+  );
+  await expect(page.getByLabel('Decoded payload')).toHaveValue(/"name": "Ada"/);
+  await expect(page.getByText(/Signature is decoded but not verified/)).toBeVisible();
 });

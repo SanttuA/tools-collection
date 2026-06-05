@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Binary, Braces, Calculator, CodeXml } from 'lucide-react';
+import { Binary, Braces, Calculator, CodeXml, ShieldAlert } from 'lucide-react';
 
 import type { ToolDefinition, ToolSlug } from './types';
 
@@ -53,6 +53,19 @@ export const tools = [
     component: lazy(() =>
       import('./html/HtmlValidatorTool').then((module) => ({
         default: module.HtmlValidatorTool,
+      })),
+    ),
+  },
+  {
+    slug: 'jwt-decoder',
+    title: 'JWT Decoder',
+    category: 'Security',
+    description: 'Decode JWT header, payload, and time claims locally.',
+    keywords: ['jwt', 'token', 'claims', 'base64url', 'decode'],
+    icon: ShieldAlert,
+    component: lazy(() =>
+      import('./jwt/JwtDecoderTool').then((module) => ({
+        default: module.JwtDecoderTool,
       })),
     ),
   },

@@ -7,6 +7,7 @@ const routes = [
   { name: 'json formatter', path: './#/tools/json-formatter' },
   { name: 'base64 converter', path: './#/tools/base64-converter' },
   { name: 'html validator', path: './#/tools/html-validator' },
+  { name: 'jwt decoder', path: './#/tools/jwt-decoder' },
 ];
 
 for (const route of routes) {
