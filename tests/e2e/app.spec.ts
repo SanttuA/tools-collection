@@ -85,6 +85,17 @@ test('validates HTML', async ({ page }) => {
   await expect(page.getByLabel('Validation report')).toHaveValue(/void-content/);
 });
 
+test('previews Markdown', async ({ page }) => {
+  await page.goto('./#/tools/markdown-previewer');
+
+  await expect(page.getByRole('heading', { name: 'Markdown Previewer' })).toBeVisible();
+  await page.getByLabel('Markdown input').fill('# Hello\n\n**Strong** copy');
+
+  const preview = page.getByLabel('Markdown preview');
+  await expect(preview.getByRole('heading', { name: 'Hello' })).toBeVisible();
+  await expect(preview.locator('strong')).toHaveText('Strong');
+});
+
 test('decodes JWTs', async ({ page }) => {
   await page.goto('./#/tools/jwt-decoder');
 

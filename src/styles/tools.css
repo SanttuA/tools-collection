@@ -66,6 +66,137 @@
   background: var(--input-output-bg);
 }
 
+.markdown-preview {
+  background: var(--input-output-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 16rem;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.markdown-preview-content > :first-child,
+.markdown-preview-empty {
+  margin-top: 0;
+}
+
+.markdown-preview-content > :last-child,
+.markdown-preview-empty {
+  margin-bottom: 0;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+  color: var(--text);
+  line-height: 1.2;
+  margin: 1rem 0 0.5rem;
+}
+
+.markdown-preview h1 {
+  border-bottom: 1px solid var(--border);
+  font-size: 1.75rem;
+  padding-bottom: 0.35rem;
+}
+
+.markdown-preview h2 {
+  font-size: 1.35rem;
+}
+
+.markdown-preview h3 {
+  font-size: 1.1rem;
+}
+
+.markdown-preview p,
+.markdown-preview ul,
+.markdown-preview ol,
+.markdown-preview blockquote,
+.markdown-preview pre,
+.markdown-preview table {
+  margin: 0 0 0.85rem;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+  padding-left: 1.35rem;
+}
+
+.markdown-preview li + li {
+  margin-top: 0.25rem;
+}
+
+.markdown-preview blockquote {
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  padding-left: 0.8rem;
+}
+
+.markdown-preview code {
+  background: var(--panel-soft);
+  border-radius: 6px;
+  color: var(--blue);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.92em;
+  padding: 0.1rem 0.3rem;
+}
+
+.markdown-preview pre {
+  background: var(--calculator-display-bg);
+  border-radius: 8px;
+  overflow: auto;
+  padding: 0.85rem;
+}
+
+.markdown-preview pre code {
+  background: transparent;
+  color: var(--calculator-display-text);
+  padding: 0;
+}
+
+.markdown-preview a {
+  color: var(--blue);
+}
+
+.markdown-preview img {
+  border-radius: 8px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.markdown-preview table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.55rem;
+}
+
+.markdown-preview th {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.markdown-preview hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.markdown-preview-empty {
+  color: var(--muted);
+}
+
 .action-row {
   display: flex;
   flex-wrap: wrap;

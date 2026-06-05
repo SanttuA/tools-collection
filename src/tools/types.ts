@@ -6,6 +6,7 @@ export type ToolSlug =
   | 'json-formatter'
   | 'base64-converter'
   | 'html-validator'
+  | 'markdown-previewer'
   | 'jwt-decoder';
 
 export type ToolComponentProps = {
