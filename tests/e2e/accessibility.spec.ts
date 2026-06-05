@@ -8,6 +8,7 @@ const routes = [
   { name: 'base64 converter', path: './#/tools/base64-converter' },
   { name: 'html validator', path: './#/tools/html-validator' },
   { name: 'markdown previewer', path: './#/tools/markdown-previewer' },
+  { name: 'lorem ipsum generator', path: './#/tools/lorem-ipsum-generator' },
   { name: 'jwt decoder', path: './#/tools/jwt-decoder' },
 ];
 
