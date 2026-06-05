@@ -10,6 +10,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - JSON Formatter: validate, pretty-print, and minify JSON.
 - Base64 Converter: encode and decode UTF-8 text.
 - HTML Validator: validate HTML markup offline.
+- JWT Decoder: decode JWT header, payload, and time claims locally without verification.
 
 ## Stack
 
