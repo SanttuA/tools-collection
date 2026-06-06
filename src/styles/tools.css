@@ -462,6 +462,164 @@
   grid-column: span 2;
 }
 
+.world-clock-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.world-clock-form {
+  align-items: end;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(14rem, 1fr) auto;
+}
+
+.world-clock-search-panel {
+  background: var(--input-output-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem;
+}
+
+.world-clock-results {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.world-clock-result {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text);
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  min-height: 3rem;
+  padding: 0.55rem 0.65rem;
+  text-align: left;
+  width: 100%;
+}
+
+.world-clock-result:hover {
+  background: var(--panel-soft);
+  border-color: var(--border);
+}
+
+.world-clock-result svg {
+  color: var(--accent);
+  flex: 0 0 auto;
+  height: 1rem;
+  width: 1rem;
+}
+
+.world-clock-result-label {
+  display: block;
+  font-weight: 800;
+}
+
+.world-clock-result-zone {
+  color: var(--muted);
+  display: block;
+  font-size: 0.92rem;
+  margin-top: 0.1rem;
+}
+
+.world-clock-empty-result {
+  color: var(--muted);
+  margin: 0;
+  padding: 0.65rem;
+}
+
+.world-clock-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.world-clock-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.world-clock-card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.world-clock-card h2 {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.world-clock-card-header p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.world-clock-remove {
+  border-color: var(--danger-border);
+  color: var(--danger);
+  flex: 0 0 auto;
+  min-height: 2.25rem;
+  padding: 0.5rem;
+}
+
+.world-clock-remove:hover {
+  background: var(--danger-bg);
+}
+
+.world-clock-time {
+  color: var(--text);
+  display: block;
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.world-clock-meta {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.world-clock-meta div {
+  align-items: baseline;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.world-clock-meta dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.world-clock-meta dd {
+  color: var(--text);
+  margin: 0;
+  text-align: right;
+}
+
 .error-banner {
   background: var(--danger-bg);
   border: 1px solid var(--danger-border);
@@ -493,6 +651,18 @@
   }
 
   .calculator-result-line {
+    font-size: 1.75rem;
+  }
+
+  .world-clock-form {
+    grid-template-columns: 1fr;
+  }
+
+  .world-clock-form .primary-button {
+    width: 100%;
+  }
+
+  .world-clock-time {
     font-size: 1.75rem;
   }
 }

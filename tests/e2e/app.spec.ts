@@ -124,3 +124,27 @@ test('decodes JWTs', async ({ page }) => {
   await expect(page.getByLabel('Decoded payload')).toHaveValue(/"name": "Ada"/);
   await expect(page.getByText(/Signature is decoded but not verified/)).toBeVisible();
 });
+
+test('adds and persists world clocks', async ({ page }) => {
+  await page.goto('./#/tools/world-clocks');
+
+  await expect(page.getByRole('heading', { name: 'World Clocks' })).toBeVisible();
+  await expect(page.getByRole('article', { name: 'Finland clock' })).toContainText(
+    'Europe/Helsinki',
+  );
+  await expect(page.getByRole('article', { name: 'US Pacific clock' })).toContainText(
+    'America/Los_Angeles',
+  );
+
+  await page.getByLabel('Search time zones').fill('Sydney');
+  await page.getByRole('button', { name: /Add Sydney, Australia/ }).click();
+
+  await expect(page.getByRole('article', { name: 'Sydney, Australia clock' })).toContainText(
+    'Australia/Sydney',
+  );
+
+  await page.reload();
+  await expect(page.getByRole('article', { name: 'Sydney, Australia clock' })).toContainText(
+    'Australia/Sydney',
+  );
+});

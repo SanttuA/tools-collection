@@ -8,7 +8,8 @@ export type ToolSlug =
   | 'html-validator'
   | 'markdown-previewer'
   | 'lorem-ipsum-generator'
-  | 'jwt-decoder';
+  | 'jwt-decoder'
+  | 'world-clocks';
 
 export type ToolComponentProps = {
   headingId: string;
