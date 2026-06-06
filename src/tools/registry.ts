@@ -1,5 +1,14 @@
 import { lazy } from 'react';
-import { Binary, Braces, Calculator, CodeXml, FileText, Pilcrow, ShieldAlert } from 'lucide-react';
+import {
+  Binary,
+  Braces,
+  Calculator,
+  Clock,
+  CodeXml,
+  FileText,
+  Pilcrow,
+  ShieldAlert,
+} from 'lucide-react';
 
 import type { ToolDefinition, ToolSlug } from './types';
 
@@ -92,6 +101,19 @@ export const tools = [
     component: lazy(() =>
       import('./jwt/JwtDecoderTool').then((module) => ({
         default: module.JwtDecoderTool,
+      })),
+    ),
+  },
+  {
+    slug: 'world-clocks',
+    title: 'World Clocks',
+    category: 'Time',
+    description: 'Live DST-aware clocks for major time zones.',
+    keywords: ['world', 'clock', 'time', 'timezone', 'time zone', 'dst', 'gmt', 'utc'],
+    icon: Clock,
+    component: lazy(() =>
+      import('./world-clocks/WorldClocksTool').then((module) => ({
+        default: module.WorldClocksTool,
       })),
     ),
   },
