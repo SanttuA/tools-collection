@@ -7,9 +7,9 @@ import type { ToolComponentProps } from '@/tools/types';
 import {
   defaultWorldClocks,
   formatClockDisplay,
+  getCanonicalTimeZone,
   getReadableTimeZoneLabel,
   getSupportedTimeZones,
-  isValidTimeZone,
   normalizeCustomTimeZones,
   readStoredTimeZones,
   searchTimeZones,
@@ -110,18 +110,20 @@ export function WorldClocksTool({ headingId }: ToolComponentProps) {
   };
 
   const addTimeZone = (timeZone: string) => {
-    if (!isValidTimeZone(timeZone)) {
+    const canonicalTimeZone = getCanonicalTimeZone(timeZone);
+
+    if (!canonicalTimeZone) {
       setStatus('Enter a valid IANA time zone.');
       return;
     }
 
-    if (displayedTimeZones.includes(timeZone)) {
+    if (displayedTimeZones.includes(canonicalTimeZone)) {
       setStatus('That clock is already displayed.');
       return;
     }
 
-    const persisted = persistCustomTimeZones([...customTimeZones, timeZone]);
-    const label = getReadableTimeZoneLabel(timeZone);
+    const persisted = persistCustomTimeZones([...customTimeZones, canonicalTimeZone]);
+    const label = getReadableTimeZoneLabel(canonicalTimeZone);
 
     setQuery('');
     setStatus(persisted ? `Added ${label}.` : `Added ${label} for this session.`);

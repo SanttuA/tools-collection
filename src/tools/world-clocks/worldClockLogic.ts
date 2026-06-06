@@ -86,11 +86,14 @@ function uniqueTimeZones(timeZones: string[]): string[] {
 }
 
 export function isValidTimeZone(timeZone: string): boolean {
+  return getCanonicalTimeZone(timeZone) !== undefined;
+}
+
+export function getCanonicalTimeZone(timeZone: string): string | undefined {
   try {
-    new Intl.DateTimeFormat('en-GB', { timeZone }).format(new Date(0));
-    return true;
+    return new Intl.DateTimeFormat('en-GB', { timeZone }).resolvedOptions().timeZone;
   } catch {
-    return false;
+    return undefined;
   }
 }
 
@@ -100,12 +103,17 @@ export function normalizeCustomTimeZones(timeZones: unknown): string[] {
   }
 
   return uniqueTimeZones(
-    timeZones.filter(
-      (timeZone): timeZone is string =>
-        typeof timeZone === 'string' &&
-        !defaultTimeZoneSet.has(timeZone) &&
-        isValidTimeZone(timeZone),
-    ),
+    timeZones.flatMap((timeZone) => {
+      if (typeof timeZone !== 'string') {
+        return [];
+      }
+
+      const canonicalTimeZone = getCanonicalTimeZone(timeZone);
+
+      return canonicalTimeZone && !defaultTimeZoneSet.has(canonicalTimeZone)
+        ? [canonicalTimeZone]
+        : [];
+    }),
   );
 }
 
@@ -149,7 +157,11 @@ export function getSupportedTimeZones(source: TimeZoneSupportSource = Intl): str
       ? source.supportedValuesOf('timeZone')
       : fallbackTimeZones;
 
-  return uniqueTimeZones(['UTC', ...supportedTimeZones]).filter(isValidTimeZone);
+  return uniqueTimeZones(
+    ['UTC', ...supportedTimeZones]
+      .map(getCanonicalTimeZone)
+      .filter((timeZone): timeZone is string => timeZone !== undefined),
+  );
 }
 
 export function getReadableTimeZoneLabel(timeZone: string): string {
@@ -179,9 +191,19 @@ export function searchTimeZones(
     return [];
   }
 
-  const excluded = new Set(excludedTimeZones);
+  const excluded = new Set(
+    excludedTimeZones
+      .map(getCanonicalTimeZone)
+      .filter((timeZone): timeZone is string => timeZone !== undefined),
+  );
 
-  return supportedTimeZones
+  return uniqueTimeZones(
+    supportedTimeZones.flatMap((timeZone) => {
+      const canonicalTimeZone = getCanonicalTimeZone(timeZone);
+
+      return canonicalTimeZone ? [canonicalTimeZone] : [];
+    }),
+  )
     .filter((timeZone) => !excluded.has(timeZone))
     .map((timeZone) => ({ label: getReadableTimeZoneLabel(timeZone), timeZone }))
     .filter((clock) => `${clock.label} ${clock.timeZone}`.toLowerCase().includes(normalizedQuery))

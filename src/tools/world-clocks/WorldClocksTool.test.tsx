@@ -58,6 +58,19 @@ describe('WorldClocksTool', () => {
     expect(screen.getAllByText('Europe/Helsinki')).toHaveLength(1);
   });
 
+  it('prevents duplicate clocks from aliases and casing variants', () => {
+    render(<WorldClocksTool headingId="world-clocks-heading" />);
+
+    fireEvent.change(screen.getByLabelText('Search time zones'), {
+      target: { value: 'europe/helsinki' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Add first match' }));
+
+    expect(screen.getByText('That clock is already displayed.')).toBeVisible();
+    expect(screen.getAllByText('Europe/Helsinki')).toHaveLength(1);
+    expect(localStorage.getItem(worldClocksStorageKey)).toBeNull();
+  });
+
   it('loads persisted custom clocks', () => {
     localStorage.setItem(worldClocksStorageKey, JSON.stringify(['Australia/Sydney']));
 

@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   fallbackTimeZones,
   formatGmtOffset,
+  getCanonicalTimeZone,
   getReadableTimeZoneLabel,
   getSupportedTimeZones,
   getTimeZoneOffsetMinutes,
@@ -11,6 +12,7 @@ import {
   readStoredTimeZones,
   searchTimeZones,
   writeStoredTimeZones,
+  worldClocksStorageKey,
 } from './worldClockLogic';
 
 function withThrowingLocalStorage(callback: () => void) {
@@ -41,15 +43,45 @@ describe('worldClockLogic', () => {
     expect(isValidTimeZone('Not/AZone')).toBe(false);
   });
 
-  it('dedupes custom zones and excludes default clocks', () => {
+  it('canonicalizes accepted aliases and casing variants', () => {
+    expect(getCanonicalTimeZone('europe/helsinki')).toBe('Europe/Helsinki');
+    expect(getCanonicalTimeZone('GMT')).toBe('UTC');
+    expect(getCanonicalTimeZone('US/Eastern')).toBe('America/New_York');
+  });
+
+  it('dedupes canonical custom zones and excludes default clocks', () => {
     expect(
       normalizeCustomTimeZones([
-        'Australia/Sydney',
+        'australia/sydney',
         'Europe/Helsinki',
         'Australia/Sydney',
+        'US/Eastern',
         'Not/AZone',
       ]),
     ).toEqual(['Australia/Sydney']);
+  });
+
+  it('reads stored aliases as canonical custom zones', () => {
+    const storage = {
+      getItem: vi.fn<Storage['getItem']>(() =>
+        JSON.stringify(['australia/sydney', 'GMT', 'US/Eastern']),
+      ),
+    } as unknown as Storage;
+
+    expect(readStoredTimeZones(storage)).toEqual(['Australia/Sydney']);
+    expect(storage.getItem).toHaveBeenCalledWith(worldClocksStorageKey);
+  });
+
+  it('writes canonical custom zones to storage', () => {
+    const storage = {
+      setItem: vi.fn<Storage['setItem']>(),
+    } as unknown as Storage;
+
+    expect(writeStoredTimeZones(['australia/sydney', 'GMT'], storage)).toBe(true);
+    expect(storage.setItem).toHaveBeenCalledWith(
+      worldClocksStorageKey,
+      JSON.stringify(['Australia/Sydney']),
+    );
   });
 
   it('returns empty stored zones when browser storage access throws', () => {
