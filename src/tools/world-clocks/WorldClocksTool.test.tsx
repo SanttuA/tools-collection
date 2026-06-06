@@ -58,16 +58,20 @@ describe('WorldClocksTool', () => {
     expect(screen.getAllByText('Europe/Helsinki')).toHaveLength(1);
   });
 
-  it('prevents duplicate clocks from aliases and casing variants', () => {
+  it.each([
+    ['europe/helsinki', 'Finland clock'],
+    ['GMT', 'GMT / UTC clock'],
+    ['US/Eastern', 'US Eastern clock'],
+  ])('prevents duplicate clocks from %s', (submittedTimeZone, defaultClockName) => {
     render(<WorldClocksTool headingId="world-clocks-heading" />);
 
     fireEvent.change(screen.getByLabelText('Search time zones'), {
-      target: { value: 'europe/helsinki' },
+      target: { value: submittedTimeZone },
     });
     fireEvent.click(screen.getByRole('button', { name: 'Add first match' }));
 
     expect(screen.getByText('That clock is already displayed.')).toBeVisible();
-    expect(screen.getAllByText('Europe/Helsinki')).toHaveLength(1);
+    expect(screen.getByRole('article', { name: defaultClockName })).toBeVisible();
     expect(localStorage.getItem(worldClocksStorageKey)).toBeNull();
   });
 

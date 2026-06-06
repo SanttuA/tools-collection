@@ -46,7 +46,10 @@ describe('worldClockLogic', () => {
   it('canonicalizes accepted aliases and casing variants', () => {
     expect(getCanonicalTimeZone('europe/helsinki')).toBe('Europe/Helsinki');
     expect(getCanonicalTimeZone('GMT')).toBe('UTC');
+    expect(getCanonicalTimeZone('Etc/GMT')).toBe('UTC');
     expect(getCanonicalTimeZone('US/Eastern')).toBe('America/New_York');
+    expect(getCanonicalTimeZone('US/Pacific')).toBe('America/Los_Angeles');
+    expect(getCanonicalTimeZone('PST8PDT')).toBe('America/Los_Angeles');
   });
 
   it('dedupes canonical custom zones and excludes default clocks', () => {

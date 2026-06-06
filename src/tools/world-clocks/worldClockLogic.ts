@@ -85,13 +85,95 @@ function uniqueTimeZones(timeZones: string[]): string[] {
   return Array.from(new Set(timeZones));
 }
 
+function normalizeTimeZoneKey(timeZone: string): string {
+  return timeZone.trim().toLowerCase();
+}
+
+const explicitCanonicalTimeZones = new Map<string, string>(
+  [
+    ...defaultWorldClocks.map((clock) => clock.timeZone),
+    ...fallbackTimeZones,
+    'Africa/Abidjan',
+    'America/Adak',
+    'America/Detroit',
+    'America/Indiana/Indianapolis',
+    'America/Indiana/Knox',
+    'America/Indiana/Marengo',
+    'America/Indiana/Petersburg',
+    'America/Indiana/Tell_City',
+    'America/Indiana/Vevay',
+    'America/Indiana/Vincennes',
+    'America/Indiana/Winamac',
+    'America/Kentucky/Louisville',
+    'America/Kentucky/Monticello',
+    'America/Nome',
+    'America/Puerto_Rico',
+    'Pacific/Guam',
+    'Pacific/Pago_Pago',
+  ].map((timeZone) => [normalizeTimeZoneKey(timeZone), timeZone]),
+);
+
+const explicitTimeZoneAliases = new Map<string, string>([
+  ...explicitCanonicalTimeZones,
+  ['etc/utc', 'UTC'],
+  ['etc/gmt', 'UTC'],
+  ['etc/uct', 'UTC'],
+  ['etc/universal', 'UTC'],
+  ['etc/zulu', 'UTC'],
+  ['gmt', 'UTC'],
+  ['uct', 'UTC'],
+  ['universal', 'UTC'],
+  ['zulu', 'UTC'],
+  ['us/alaska', 'America/Anchorage'],
+  ['us/aleutian', 'America/Adak'],
+  ['us/central', 'America/Chicago'],
+  ['us/east-indiana', 'America/Indiana/Indianapolis'],
+  ['us/eastern', 'America/New_York'],
+  ['us/hawaii', 'Pacific/Honolulu'],
+  ['us/indiana-starke', 'America/Indiana/Knox'],
+  ['us/michigan', 'America/Detroit'],
+  ['us/mountain', 'America/Denver'],
+  ['us/pacific', 'America/Los_Angeles'],
+  ['us/samoa', 'Pacific/Pago_Pago'],
+  ['est5edt', 'America/New_York'],
+  ['cst6cdt', 'America/Chicago'],
+  ['mst7mdt', 'America/Denver'],
+  ['pst8pdt', 'America/Los_Angeles'],
+  ['japan', 'Asia/Tokyo'],
+]);
+
+function canFormatTimeZone(timeZone: string): boolean {
+  try {
+    new Intl.DateTimeFormat('en-GB', { timeZone }).format(new Date(0));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function isValidTimeZone(timeZone: string): boolean {
   return getCanonicalTimeZone(timeZone) !== undefined;
 }
 
 export function getCanonicalTimeZone(timeZone: string): string | undefined {
+  const trimmedTimeZone = timeZone.trim();
+
+  if (!trimmedTimeZone) {
+    return undefined;
+  }
+
+  const explicitTimeZone = explicitTimeZoneAliases.get(normalizeTimeZoneKey(trimmedTimeZone));
+
+  if (explicitTimeZone) {
+    return canFormatTimeZone(explicitTimeZone) ? explicitTimeZone : undefined;
+  }
+
   try {
-    return new Intl.DateTimeFormat('en-GB', { timeZone }).resolvedOptions().timeZone;
+    const resolvedTimeZone = new Intl.DateTimeFormat('en-GB', {
+      timeZone: trimmedTimeZone,
+    }).resolvedOptions().timeZone;
+
+    return explicitTimeZoneAliases.get(normalizeTimeZoneKey(resolvedTimeZone)) ?? resolvedTimeZone;
   } catch {
     return undefined;
   }
