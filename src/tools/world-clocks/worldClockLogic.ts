@@ -109,30 +109,34 @@ export function normalizeCustomTimeZones(timeZones: unknown): string[] {
   );
 }
 
-export function readStoredTimeZones(
-  storage: Storage | undefined = globalThis.localStorage,
-): string[] {
-  if (!storage) {
-    return [];
-  }
-
+export function readStoredTimeZones(storage?: Storage): string[] {
   try {
-    return normalizeCustomTimeZones(JSON.parse(storage.getItem(worldClocksStorageKey) ?? '[]'));
+    const resolvedStorage = storage ?? globalThis.localStorage;
+
+    if (!resolvedStorage) {
+      return [];
+    }
+
+    return normalizeCustomTimeZones(
+      JSON.parse(resolvedStorage.getItem(worldClocksStorageKey) ?? '[]'),
+    );
   } catch {
     return [];
   }
 }
 
-export function writeStoredTimeZones(
-  timeZones: string[],
-  storage: Storage | undefined = globalThis.localStorage,
-): boolean {
-  if (!storage) {
-    return false;
-  }
-
+export function writeStoredTimeZones(timeZones: string[], storage?: Storage): boolean {
   try {
-    storage.setItem(worldClocksStorageKey, JSON.stringify(normalizeCustomTimeZones(timeZones)));
+    const resolvedStorage = storage ?? globalThis.localStorage;
+
+    if (!resolvedStorage) {
+      return false;
+    }
+
+    resolvedStorage.setItem(
+      worldClocksStorageKey,
+      JSON.stringify(normalizeCustomTimeZones(timeZones)),
+    );
     return true;
   } catch {
     return false;

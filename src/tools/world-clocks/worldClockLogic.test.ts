@@ -8,8 +8,31 @@ import {
   getTimeZoneOffsetMinutes,
   isValidTimeZone,
   normalizeCustomTimeZones,
+  readStoredTimeZones,
   searchTimeZones,
+  writeStoredTimeZones,
 } from './worldClockLogic';
+
+function withThrowingLocalStorage(callback: () => void) {
+  const localStorageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    get() {
+      throw new Error('Storage is unavailable');
+    },
+  });
+
+  try {
+    callback();
+  } finally {
+    if (localStorageDescriptor) {
+      Object.defineProperty(globalThis, 'localStorage', localStorageDescriptor);
+    } else {
+      Reflect.deleteProperty(globalThis, 'localStorage');
+    }
+  }
+}
 
 describe('worldClockLogic', () => {
   it('validates IANA time zone IDs', () => {
@@ -27,6 +50,18 @@ describe('worldClockLogic', () => {
         'Not/AZone',
       ]),
     ).toEqual(['Australia/Sydney']);
+  });
+
+  it('returns empty stored zones when browser storage access throws', () => {
+    withThrowingLocalStorage(() => {
+      expect(readStoredTimeZones()).toEqual([]);
+    });
+  });
+
+  it('reports failed writes when browser storage access throws', () => {
+    withThrowingLocalStorage(() => {
+      expect(writeStoredTimeZones(['Australia/Sydney'])).toBe(false);
+    });
   });
 
   it('uses the fallback time zone list when browser-supported values are unavailable', () => {
