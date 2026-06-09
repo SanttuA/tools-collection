@@ -68,4 +68,18 @@ describe('UnitConverterTool', () => {
     expect(getSelect('From unit').value).toBe('gigabyte');
     expect(getSelect('To unit').value).toBe('gibibyte');
   });
+
+  it('shows an error when a conversion overflows', async () => {
+    const user = userEvent.setup();
+    render(<UnitConverterTool headingId="unit-converter-heading" />);
+
+    await user.selectOptions(getSelect('Conversion category'), 'length');
+    await user.selectOptions(getSelect('To unit'), 'millimeter');
+    await user.type(screen.getByLabelText('Value to convert'), '1e308');
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Converted value is too large to represent.',
+    );
+    expect(screen.getByLabelText('Converted value')).toHaveTextContent('');
+  });
 });

@@ -407,6 +407,14 @@ export function convertInput(
 
   const convertedValue = convertValue(numericInput, categoryId, fromUnitId, toUnitId);
 
+  if (!Number.isFinite(convertedValue)) {
+    return {
+      error: 'Converted value is too large to represent.',
+      numericValue: null,
+      output: '',
+    };
+  }
+
   return {
     error: null,
     numericValue: convertedValue,

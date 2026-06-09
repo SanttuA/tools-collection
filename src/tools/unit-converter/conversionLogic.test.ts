@@ -82,6 +82,14 @@ describe('conversionLogic', () => {
     });
   });
 
+  it('reports conversion overflow instead of returning a blank success result', () => {
+    expect(convertInput('1e308', 'length', 'meter', 'millimeter')).toEqual({
+      error: 'Converted value is too large to represent.',
+      numericValue: null,
+      output: '',
+    });
+  });
+
   it.each(['', '-', '+', '.', '1e', '1e-', '-1e+'])(
     'treats incomplete input "%s" as empty',
     (input) => {
