@@ -9,7 +9,8 @@ export type ToolSlug =
   | 'markdown-previewer'
   | 'lorem-ipsum-generator'
   | 'jwt-decoder'
-  | 'world-clocks';
+  | 'world-clocks'
+  | 'unit-converter';
 
 export type ToolComponentProps = {
   headingId: string;
