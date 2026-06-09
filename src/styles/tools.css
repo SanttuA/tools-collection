@@ -462,6 +462,62 @@
   grid-column: span 2;
 }
 
+.converter-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.converter-category-field {
+  max-width: 28rem;
+}
+
+.converter-grid {
+  align-items: start;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(12rem, 1fr) repeat(2, minmax(13rem, 1fr));
+}
+
+.converter-hint {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.converter-value-input {
+  font-variant-numeric: tabular-nums;
+}
+
+.converter-output-card {
+  background: var(--calculator-display-bg);
+  border-radius: 8px;
+  color: var(--calculator-display-text);
+  display: grid;
+  font-variant-numeric: tabular-nums;
+  gap: 0.35rem;
+  min-height: 7rem;
+  padding: 1rem;
+}
+
+.converter-output-label,
+.converter-output-unit {
+  color: var(--calculator-status-text);
+}
+
+.converter-output-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.converter-output-value {
+  color: var(--calculator-display-text);
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  min-height: 2.2rem;
+  overflow-wrap: anywhere;
+}
+
 .world-clock-controls {
   display: grid;
   gap: 0.75rem;
@@ -651,6 +707,14 @@
   }
 
   .calculator-result-line {
+    font-size: 1.75rem;
+  }
+
+  .converter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .converter-output-value {
     font-size: 1.75rem;
   }
 

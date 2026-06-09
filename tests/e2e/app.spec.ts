@@ -70,6 +70,23 @@ test('converts Base64 text', async ({ page }) => {
   await expect(page.getByLabel('Plain text')).toHaveValue('Hello world');
 });
 
+test('finds and uses the unit converter', async ({ page }) => {
+  await page.goto('./');
+
+  await page.getByLabel('Search tools').fill('unit');
+  await page
+    .locator('.tool-grid')
+    .getByRole('link', { name: /Unit Converter/ })
+    .click();
+
+  await expect(page).toHaveURL(/#\/tools\/unit-converter$/);
+  await expect(page.getByRole('heading', { name: 'Unit Converter' })).toBeVisible();
+
+  await page.getByLabel('Value to convert').fill('100');
+
+  await expect(page.locator('output[aria-label="Converted value"]')).toHaveText('212');
+});
+
 test('validates HTML', async ({ page }) => {
   await page.goto('./#/tools/html-validator');
 

@@ -13,6 +13,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - Markdown Previewer: preview markdown as sanitized HTML.
 - Lorem Ipsum Generator: generate placeholder paragraphs, sentences, or words.
 - JWT Decoder: decode JWT header, payload, and time claims locally without verification.
+- Unit Converter: convert common units across measurement categories.
 
 ## Stack
 

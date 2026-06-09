@@ -7,6 +7,7 @@ import {
   CodeXml,
   FileText,
   Pilcrow,
+  Repeat2,
   ShieldAlert,
 } from 'lucide-react';
 
@@ -101,6 +102,39 @@ export const tools = [
     component: lazy(() =>
       import('./jwt/JwtDecoderTool').then((module) => ({
         default: module.JwtDecoderTool,
+      })),
+    ),
+  },
+  {
+    slug: 'unit-converter',
+    title: 'Unit Converter',
+    category: 'Conversion',
+    description: 'Convert common units across measurement categories.',
+    keywords: [
+      'unit',
+      'converter',
+      'conversion',
+      'temperature',
+      'length',
+      'distance',
+      'weight',
+      'mass',
+      'volume',
+      'area',
+      'speed',
+      'time',
+      'data',
+      'bits',
+      'bytes',
+      'energy',
+      'power',
+      'pressure',
+      'angle',
+    ],
+    icon: Repeat2,
+    component: lazy(() =>
+      import('./unit-converter/UnitConverterTool').then((module) => ({
+        default: module.UnitConverterTool,
       })),
     ),
   },

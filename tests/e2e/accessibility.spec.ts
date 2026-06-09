@@ -10,6 +10,7 @@ const routes = [
   { name: 'markdown previewer', path: './#/tools/markdown-previewer' },
   { name: 'lorem ipsum generator', path: './#/tools/lorem-ipsum-generator' },
   { name: 'jwt decoder', path: './#/tools/jwt-decoder' },
+  { name: 'unit converter', path: './#/tools/unit-converter' },
   { name: 'world clocks', path: './#/tools/world-clocks' },
 ];
 
