@@ -7,3 +7,47 @@ test-results/
 src/routeTree.gen.ts
 *.local
 
+# =========================
+# Robot Framework / Python
+# =========================
+
+# virtualenvs
+robot/.venv/
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# uv
+.uv/
+# keep uv.lock committed if you want reproducible test deps
+# uv.lock
+
+# Robot Framework output artifacts
+robot/log.html
+robot/report.html
+robot/output.xml
+robot/playwright-log.txt
+robot/screenshots/
+robot/results/
+
+# if you run robot from inside tests or elsewhere and want to ignore generic outputs too
+log.html
+report.html
+output.xml
+playwright-log.txt
+
+# Playwright / browser artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
