@@ -1,12 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { render } from 'vitest-browser-react';
 
 import { UnitConverterTool } from './UnitConverterTool';
-
-function getSelect(label: string) {
-  return screen.getByLabelText<HTMLSelectElement>(label);
-}
 
 describe('UnitConverterTool', () => {
   beforeEach(() => {
@@ -14,85 +9,93 @@ describe('UnitConverterTool', () => {
   });
 
   it('converts the default temperature pair', async () => {
-    const user = userEvent.setup();
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const screen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
 
-    await user.type(screen.getByLabelText('Value to convert'), '100');
+    await screen.getByLabelText('Value to convert').fill('100');
 
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('212');
-    expect(screen.getByText('degF')).toBeVisible();
+    await expect.element(screen.getByLabelText('Converted value')).toHaveTextContent('212');
+    await expect.element(screen.getByText('degF', { exact: true })).toBeVisible();
   });
 
   it('resets units when the category changes', async () => {
-    const user = userEvent.setup();
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const screen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const category = screen.getByLabelText('Conversion category');
+    const fromUnit = screen.getByLabelText('From unit');
+    const toUnit = screen.getByLabelText('To unit');
 
-    await user.selectOptions(getSelect('Conversion category'), 'length');
-    await user.type(screen.getByLabelText('Value to convert'), '1');
+    await category.selectOptions('length');
+    await screen.getByLabelText('Value to convert').fill('1');
 
-    expect(getSelect('From unit').value).toBe('meter');
-    expect(getSelect('To unit').value).toBe('foot');
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('3.28083989501');
+    await expect.element(fromUnit).toHaveValue('meter');
+    await expect.element(toUnit).toHaveValue('foot');
+    await expect
+      .element(screen.getByLabelText('Converted value'))
+      .toHaveTextContent('3.28083989501');
   });
 
   it('converts provider network speeds to download-app speeds', async () => {
-    const user = userEvent.setup();
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const screen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const category = screen.getByLabelText('Conversion category');
+    const fromUnit = screen.getByLabelText('From unit');
+    const toUnit = screen.getByLabelText('To unit');
 
-    await user.selectOptions(getSelect('Conversion category'), 'network-speed');
-    await user.type(screen.getByLabelText('Value to convert'), '100');
+    await category.selectOptions('network-speed');
+    await screen.getByLabelText('Value to convert').fill('100');
 
-    expect(getSelect('From unit').value).toBe('megabit-per-second');
-    expect(getSelect('To unit').value).toBe('megabyte-per-second');
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('12.5');
-    expect(screen.getByText('MB/s')).toBeVisible();
+    await expect.element(fromUnit).toHaveValue('megabit-per-second');
+    await expect.element(toUnit).toHaveValue('megabyte-per-second');
+    await expect.element(screen.getByLabelText('Converted value')).toHaveTextContent('12.5');
+    await expect.element(screen.getByText('MB/s', { exact: true })).toBeVisible();
   });
 
   it('swaps and clears the active conversion', async () => {
-    const user = userEvent.setup();
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const screen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const category = screen.getByLabelText('Conversion category');
+    const fromUnit = screen.getByLabelText('From unit');
+    const toUnit = screen.getByLabelText('To unit');
 
-    await user.selectOptions(getSelect('Conversion category'), 'length');
-    await user.type(screen.getByLabelText('Value to convert'), '1');
-    await user.click(screen.getByRole('button', { name: 'Swap units' }));
+    await category.selectOptions('length');
+    await screen.getByLabelText('Value to convert').fill('1');
+    await screen.getByRole('button', { name: 'Swap units' }).click();
 
-    expect(getSelect('From unit').value).toBe('foot');
-    expect(getSelect('To unit').value).toBe('meter');
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('0.3048');
+    await expect.element(fromUnit).toHaveValue('foot');
+    await expect.element(toUnit).toHaveValue('meter');
+    await expect.element(screen.getByLabelText('Converted value')).toHaveTextContent('0.3048');
 
-    await user.click(screen.getByRole('button', { name: 'Clear value' }));
+    await screen.getByRole('button', { name: 'Clear value' }).click();
 
-    expect(screen.getByLabelText('Value to convert')).toHaveValue('');
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('');
+    await expect.element(screen.getByLabelText('Value to convert')).toHaveValue('');
+    await expect.element(screen.getByLabelText('Converted value')).toHaveTextContent('');
   });
 
   it('persists selected category and units across mounts', async () => {
-    const user = userEvent.setup();
-    const { unmount } = render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const firstScreen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const category = firstScreen.getByLabelText('Conversion category');
+    const fromUnit = firstScreen.getByLabelText('From unit');
+    const toUnit = firstScreen.getByLabelText('To unit');
 
-    await user.selectOptions(getSelect('Conversion category'), 'data');
-    await user.selectOptions(getSelect('From unit'), 'gigabyte');
-    await user.selectOptions(getSelect('To unit'), 'gibibyte');
-    unmount();
+    await category.selectOptions('data');
+    await fromUnit.selectOptions('gigabyte');
+    await toUnit.selectOptions('gibibyte');
+    await firstScreen.unmount();
 
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const secondScreen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
 
-    expect(getSelect('Conversion category').value).toBe('data');
-    expect(getSelect('From unit').value).toBe('gigabyte');
-    expect(getSelect('To unit').value).toBe('gibibyte');
+    await expect.element(secondScreen.getByLabelText('Conversion category')).toHaveValue('data');
+    await expect.element(secondScreen.getByLabelText('From unit')).toHaveValue('gigabyte');
+    await expect.element(secondScreen.getByLabelText('To unit')).toHaveValue('gibibyte');
   });
 
   it('shows an error when a conversion overflows', async () => {
-    const user = userEvent.setup();
-    render(<UnitConverterTool headingId="unit-converter-heading" />);
+    const screen = await render(<UnitConverterTool headingId="unit-converter-heading" />);
 
-    await user.selectOptions(getSelect('Conversion category'), 'length');
-    await user.selectOptions(getSelect('To unit'), 'millimeter');
-    await user.type(screen.getByLabelText('Value to convert'), '1e308');
+    await screen.getByLabelText('Conversion category').selectOptions('length');
+    await screen.getByLabelText('To unit').selectOptions('millimeter');
+    await screen.getByLabelText('Value to convert').fill('1e308');
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'Converted value is too large to represent.',
-    );
-    expect(screen.getByLabelText('Converted value')).toHaveTextContent('');
+    await expect
+      .element(screen.getByRole('alert'))
+      .toHaveTextContent('Converted value is too large to represent.');
+    await expect.element(screen.getByLabelText('Converted value')).toHaveTextContent('');
   });
 });

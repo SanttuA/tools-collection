@@ -31,19 +31,17 @@
     "@playwright/test": "^1.62.1",
     "@tanstack/router-cli": "^1.167.27",
     "@tanstack/router-plugin": "^1.168.29",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.3",
     "@types/node": "^24.13.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
-    "jsdom": "^30.0.1",
+    "@vitest/browser-playwright": "^4.1.10",
     "knip": "^6.32.1",
     "oxlint": "^1.78.0",
     "prettier": "^3.9.6",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "vitest-browser-react": "^2.2.0"
   }
 }
