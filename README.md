@@ -25,6 +25,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - Playwright
 - axe accessibility testing
 - Oxlint
+- Knip
 - Prettier
 - pnpm with a 24-hour minimum package age policy
 
@@ -53,6 +54,7 @@ http://127.0.0.1:5173/tools-collection/
 ```sh
 pnpm typecheck
 pnpm lint
+pnpm knip
 pnpm format:check
 pnpm test
 pnpm build

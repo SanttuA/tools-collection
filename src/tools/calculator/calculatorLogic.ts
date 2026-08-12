@@ -1,4 +1,4 @@
-export type CalculatorOperator = '+' | '-' | '*' | '/';
+type CalculatorOperator = '+' | '-' | '*' | '/';
 
 export type CalculatorInput =
   | 'clear'

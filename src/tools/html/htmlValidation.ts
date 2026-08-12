@@ -1,8 +1,8 @@
 import { HtmlValidate, StaticConfigLoader, type Message } from 'html-validate/browser';
 
-export type HtmlValidationSeverity = 'error' | 'warning';
+type HtmlValidationSeverity = 'error' | 'warning';
 
-export type HtmlValidationIssue = {
+type HtmlValidationIssue = {
   column: number;
   line: number;
   message: string;
