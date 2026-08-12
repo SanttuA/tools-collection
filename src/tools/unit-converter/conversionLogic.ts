@@ -5,6 +5,7 @@ export type ConversionCategoryId =
   | 'volume'
   | 'area'
   | 'speed'
+  | 'network-speed'
   | 'time'
   | 'data'
   | 'energy'
@@ -184,6 +185,83 @@ export const conversionCategories = [
       { id: 'mile-per-hour', label: 'Mile per hour', symbol: 'mph', factorToBase: 0.44704 },
       { id: 'foot-per-second', label: 'Foot per second', symbol: 'ft/s', factorToBase: 0.3048 },
       { id: 'knot', label: 'Knot', symbol: 'kn', factorToBase: 1852 / 3600 },
+    ],
+  },
+  {
+    id: 'network-speed',
+    label: 'Network speed',
+    description: 'Internet-provider bits and download-app bytes per second (8 bits = 1 byte).',
+    defaultFromUnitId: 'megabit-per-second',
+    defaultToUnitId: 'megabyte-per-second',
+    units: [
+      { id: 'bit-per-second', label: 'Bit per second', symbol: 'bps', factorToBase: 1 },
+      {
+        id: 'kilobit-per-second',
+        label: 'Kilobit per second',
+        symbol: 'kbps',
+        factorToBase: 1000,
+      },
+      {
+        id: 'megabit-per-second',
+        label: 'Megabit per second',
+        symbol: 'Mbps',
+        factorToBase: 1000000,
+      },
+      {
+        id: 'gigabit-per-second',
+        label: 'Gigabit per second',
+        symbol: 'Gbps',
+        factorToBase: 1000000000,
+      },
+      {
+        id: 'terabit-per-second',
+        label: 'Terabit per second',
+        symbol: 'Tbps',
+        factorToBase: 1000000000000,
+      },
+      { id: 'byte-per-second', label: 'Byte per second', symbol: 'B/s', factorToBase: 8 },
+      {
+        id: 'kilobyte-per-second',
+        label: 'Kilobyte per second',
+        symbol: 'kB/s',
+        factorToBase: 8000,
+      },
+      {
+        id: 'megabyte-per-second',
+        label: 'Megabyte per second',
+        symbol: 'MB/s',
+        factorToBase: 8000000,
+      },
+      {
+        id: 'gigabyte-per-second',
+        label: 'Gigabyte per second',
+        symbol: 'GB/s',
+        factorToBase: 8000000000,
+      },
+      {
+        id: 'terabyte-per-second',
+        label: 'Terabyte per second',
+        symbol: 'TB/s',
+        factorToBase: 8000000000000,
+      },
+      {
+        id: 'kibibyte-per-second',
+        label: 'Kibibyte per second',
+        symbol: 'KiB/s',
+        factorToBase: 8192,
+      },
+      {
+        id: 'mebibyte-per-second',
+        label: 'Mebibyte per second',
+        symbol: 'MiB/s',
+        factorToBase: 8388608,
+      },
+      {
+        id: 'gibibyte-per-second',
+        label: 'Gibibyte per second',
+        symbol: 'GiB/s',
+        factorToBase: 8589934592,
+      },
     ],
   },
   {
