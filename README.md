@@ -21,7 +21,7 @@ A client-side tools app built with Vite, React, TypeScript, and TanStack Router.
 - React
 - TypeScript
 - TanStack Router with hash history
-- Vitest
+- Vitest Browser Mode with Chromium and Firefox
 - Playwright
 - axe accessibility testing
 - Oxlint
@@ -35,6 +35,7 @@ Install dependencies:
 
 ```sh
 pnpm install
+pnpm exec playwright install chromium firefox
 ```
 
 Start the local dev server:
@@ -61,6 +62,9 @@ pnpm build
 pnpm e2e
 pnpm test:a11y
 ```
+
+`pnpm test` runs pure logic tests in Node and React component tests in headless
+Chromium and Firefox through Vitest Browser Mode.
 
 ## Adding Tools
 

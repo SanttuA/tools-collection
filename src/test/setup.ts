@@ -1,8 +1,3 @@
-import '@testing-library/jest-dom/vitest';
+import 'vitest-browser-react';
 
-Object.defineProperty(navigator, 'clipboard', {
-  configurable: true,
-  value: {
-    writeText: vi.fn().mockResolvedValue(undefined),
-  },
-});
+import '@/styles/main.css';

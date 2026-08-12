@@ -1,31 +1,24 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
+import { render } from 'vitest-browser-react';
 
 import { JsonFormatterTool } from './JsonFormatterTool';
 
 describe('JsonFormatterTool', () => {
   it('formats JSON through labeled fields', async () => {
-    const user = userEvent.setup();
-    render(<JsonFormatterTool headingId="json-heading" />);
+    const screen = await render(<JsonFormatterTool headingId="json-heading" />);
 
-    fireEvent.change(screen.getByLabelText('JSON input'), {
-      target: { value: '{"ok":true}' },
-    });
-    await user.click(screen.getByRole('button', { name: 'Format JSON' }));
+    await screen.getByLabelText('JSON input').fill('{"ok":true}');
+    await screen.getByRole('button', { name: 'Format JSON' }).click();
 
-    expect(screen.getByLabelText('JSON output')).toHaveValue('{\n  "ok": true\n}');
+    await expect.element(screen.getByLabelText('JSON output')).toHaveValue('{\n  "ok": true\n}');
   });
 
   it('shows validation errors', async () => {
-    const user = userEvent.setup();
-    render(<JsonFormatterTool headingId="json-heading" />);
+    const screen = await render(<JsonFormatterTool headingId="json-heading" />);
 
-    fireEvent.change(screen.getByLabelText('JSON input'), {
-      target: { value: '{bad' },
-    });
-    await user.click(screen.getByRole('button', { name: 'Format JSON' }));
+    await screen.getByLabelText('JSON input').fill('{bad');
+    await screen.getByRole('button', { name: 'Format JSON' }).click();
 
-    expect(screen.getByRole('alert')).toBeVisible();
+    await expect.element(screen.getByRole('alert')).toBeVisible();
   });
 });

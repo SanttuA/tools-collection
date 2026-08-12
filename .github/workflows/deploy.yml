@@ -31,7 +31,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox
 
       - name: Typecheck
         run: pnpm typecheck
@@ -45,7 +45,7 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
-      - name: Unit and component tests
+      - name: Unit and browser component tests
         run: pnpm test
 
       - name: End-to-end tests
