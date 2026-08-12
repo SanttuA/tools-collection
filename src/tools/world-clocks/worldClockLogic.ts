@@ -344,7 +344,7 @@ export function formatGmtOffset(offsetMinutes: number): string {
     : `GMT${sign}${hours}:${String(minutes).padStart(2, '0')}`;
 }
 
-export function getTimeZoneName(date: Date, timeZone: string): string {
+function getTimeZoneName(date: Date, timeZone: string): string {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone,
     timeZoneName: 'short',

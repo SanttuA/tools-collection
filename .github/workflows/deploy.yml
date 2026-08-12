@@ -39,6 +39,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Find unused code and dependencies
+        run: pnpm knip
+
       - name: Check formatting
         run: pnpm format:check
 

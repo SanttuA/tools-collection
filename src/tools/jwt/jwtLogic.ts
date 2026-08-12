@@ -1,4 +1,4 @@
-export type JwtClaimInsight = {
+type JwtClaimInsight = {
   label: string;
   message: string;
   tone: 'neutral' | 'success' | 'warning';
