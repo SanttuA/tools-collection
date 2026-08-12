@@ -77,7 +77,7 @@ export function UnitConverterTool({ headingId }: ToolComponentProps) {
         <div>
           <p className="eyebrow">Conversion</p>
           <h1 id={headingId}>Unit Converter</h1>
-          <p>Convert common units for temperature, distance, mass, volume, and more.</p>
+          <p>Convert common units for temperature, distance, network speed, and more.</p>
         </div>
       </header>
 

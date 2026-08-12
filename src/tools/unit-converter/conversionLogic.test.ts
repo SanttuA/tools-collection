@@ -64,6 +64,7 @@ describe('conversionLogic', () => {
     ['volume', 1, 'us-gallon', 'liter', 3.785411784],
     ['area', 1, 'acre', 'square-meter', 4046.8564224],
     ['speed', 60, 'mile-per-hour', 'kilometer-per-hour', 96.56064],
+    ['network-speed', 100, 'megabit-per-second', 'megabyte-per-second', 12.5],
     ['time', 2, 'day', 'hour', 48],
     ['data', 1, 'megabyte', 'mebibyte', 0.95367431640625],
     ['energy', 1, 'kilowatt-hour', 'joule', 3600000],
@@ -72,6 +73,12 @@ describe('conversionLogic', () => {
     ['angle', 180, 'degree', 'radian', Math.PI],
   ])('converts %s values', (categoryId, value, fromUnitId, toUnitId, expected) => {
     expect(convertValue(value, categoryId, fromUnitId, toUnitId)).toBeCloseTo(expected, 10);
+  });
+
+  it('converts decimal network speeds to binary download rates', () => {
+    expect(
+      convertValue(1, 'network-speed', 'gigabit-per-second', 'mebibyte-per-second'),
+    ).toBeCloseTo(119.20928955078125, 10);
   });
 
   it('converts finite text input and formats the output', () => {

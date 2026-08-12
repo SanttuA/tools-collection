@@ -35,6 +35,19 @@ describe('UnitConverterTool', () => {
     expect(screen.getByLabelText('Converted value')).toHaveTextContent('3.28083989501');
   });
 
+  it('converts provider network speeds to download-app speeds', async () => {
+    const user = userEvent.setup();
+    render(<UnitConverterTool headingId="unit-converter-heading" />);
+
+    await user.selectOptions(getSelect('Conversion category'), 'network-speed');
+    await user.type(screen.getByLabelText('Value to convert'), '100');
+
+    expect(getSelect('From unit').value).toBe('megabit-per-second');
+    expect(getSelect('To unit').value).toBe('megabyte-per-second');
+    expect(screen.getByLabelText('Converted value')).toHaveTextContent('12.5');
+    expect(screen.getByText('MB/s')).toBeVisible();
+  });
+
   it('swaps and clears the active conversion', async () => {
     const user = userEvent.setup();
     render(<UnitConverterTool headingId="unit-converter-heading" />);
