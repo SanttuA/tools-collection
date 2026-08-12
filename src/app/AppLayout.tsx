@@ -79,32 +79,48 @@ export function AppLayout() {
 
         <ThemeToggle mode={themeMode} onToggle={toggleTheme} />
 
-        <nav className="nav-list" aria-label="Tools">
+        <nav className="nav-list" aria-label="Collection navigation">
           <Link
             to="/"
-            className="nav-link"
-            activeProps={{ className: 'nav-link active' }}
+            className="nav-overview-link"
+            activeProps={{ className: 'nav-overview-link active' }}
             activeOptions={{ exact: true }}
           >
-            <Home aria-hidden="true" className="nav-icon" />
-            All tools
+            <span className="nav-overview-icon" aria-hidden="true">
+              <Home />
+            </span>
+            <span className="nav-overview-copy">
+              <span>All tools</span>
+              <span className="nav-overview-meta" aria-hidden="true">
+                Collection home
+              </span>
+            </span>
           </Link>
-          {tools.map((tool) => {
-            const Icon = tool.icon;
 
-            return (
-              <Link
-                key={tool.slug}
-                to="/tools/$toolSlug"
-                params={{ toolSlug: tool.slug }}
-                className="nav-link"
-                activeProps={{ className: 'nav-link active' }}
-              >
-                <Icon aria-hidden="true" className="nav-icon" />
-                {tool.title}
-              </Link>
-            );
-          })}
+          <section className="nav-tools-section" aria-labelledby="tools-navigation-heading">
+            <div className="nav-section-heading">
+              <h2 id="tools-navigation-heading">Individual tools</h2>
+              <span aria-hidden="true">{tools.length}</span>
+            </div>
+            <div className="nav-tool-links">
+              {tools.map((tool) => {
+                const Icon = tool.icon;
+
+                return (
+                  <Link
+                    key={tool.slug}
+                    to="/tools/$toolSlug"
+                    params={{ toolSlug: tool.slug }}
+                    className="nav-link"
+                    activeProps={{ className: 'nav-link active' }}
+                  >
+                    <Icon aria-hidden="true" className="nav-icon" />
+                    {tool.title}
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
         </nav>
       </aside>
 

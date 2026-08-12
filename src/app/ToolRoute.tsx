@@ -1,5 +1,5 @@
 import { Link, useParams } from '@tanstack/react-router';
-import { AlertTriangle, ChevronRight } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, ChevronRight } from 'lucide-react';
 import { Suspense } from 'react';
 
 import { getToolBySlug } from '@/tools/registry';
@@ -26,9 +26,12 @@ export function ToolRoute() {
   return (
     <section className="page-surface" aria-labelledby={`${tool.slug}-heading`}>
       <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link to="/">Tools</Link>
-        <ChevronRight aria-hidden="true" />
-        <span>{tool.title}</span>
+        <Link to="/" className="breadcrumb-back">
+          <ArrowLeft aria-hidden="true" />
+          All tools
+        </Link>
+        <ChevronRight aria-hidden="true" className="breadcrumb-separator" />
+        <span aria-current="page">{tool.title}</span>
       </nav>
       <Suspense fallback={<div className="loading-panel">Loading {tool.title}</div>}>
         <ToolComponent headingId={`${tool.slug}-heading`} />

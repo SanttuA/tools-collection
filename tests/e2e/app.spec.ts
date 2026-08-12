@@ -10,13 +10,38 @@ const jwtWithClaims =
 test('navigates between the registered tools', async ({ page }) => {
   await page.goto('./');
 
-  await expect(page.getByRole('heading', { name: 'Tools' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Tools', exact: true })).toBeVisible();
   await page
     .locator('.tool-grid')
     .getByRole('link', { name: /JSON Formatter/ })
     .click();
   await expect(page).toHaveURL(/#\/tools\/json-formatter$/);
   await expect(page.getByRole('heading', { name: 'JSON Formatter' })).toBeVisible();
+});
+
+test('separates the collection home from tool navigation across viewport sizes', async ({
+  page,
+}) => {
+  await page.goto('./#/tools/html-validator');
+
+  const collectionNavigation = page.getByRole('navigation', {
+    name: 'Collection navigation',
+  });
+  await expect(collectionNavigation.getByRole('link', { name: 'All tools' })).toBeVisible();
+  await expect(
+    collectionNavigation.getByRole('heading', { name: 'Individual tools' }),
+  ).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  await expect(collectionNavigation).toBeHidden();
+  const breadcrumb = page.getByRole('navigation', { name: 'Breadcrumb' });
+  await expect(breadcrumb.getByRole('link', { name: 'All tools' })).toBeVisible();
+  await breadcrumb.getByRole('link', { name: 'All tools' }).click();
+  await expect(page.getByRole('heading', { name: 'Tools', exact: true })).toBeVisible();
+  await expect
+    .poll(() => page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'))
+    .toBe(true);
 });
 
 test('supports direct calculator hash links and keyboard input', async ({ page }) => {
