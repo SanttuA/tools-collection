@@ -35,12 +35,6 @@ export default defineConfig({
         optimizeDeps: {
           include: ['vitest-browser-react'],
         },
-        resolve: {
-          alias: {
-            '@': srcDirectory,
-          },
-          tsconfigPaths: true,
-        },
         test: {
           browser: {
             enabled: true,
