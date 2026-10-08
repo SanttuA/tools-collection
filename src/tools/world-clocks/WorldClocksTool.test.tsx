@@ -31,10 +31,10 @@ describe('WorldClocksTool', () => {
 
     await expect
       .element(screen.getByRole('article', { name: 'Finland clock' }))
-      .toHaveTextContent('Europe/Helsinki');
+      .toMatchTextContent('Europe/Helsinki');
     await expect
       .element(screen.getByRole('article', { name: 'GMT / UTC clock' }))
-      .toHaveTextContent('GMT');
+      .toMatchTextContent('GMT');
   });
 
   it('searches and adds a custom time zone', async () => {

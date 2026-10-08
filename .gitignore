@@ -46,6 +46,7 @@ test-results/
 playwright-report/
 blob-report/
 **/__screenshots__/
+.vitest/
 .vitest-attachments/
 
 # OS/editor noise
